@@ -1,0 +1,43 @@
+---
+- name: NT542 Homework - Basic Config & Backup
+  hosts: cisco_routers
+  gather_facts: false
+
+  vars:
+    backup_dir: "../backups/{{ inventory_hostname }}"
+    timestamp: "{{ lookup('pipe', 'date +%Y%m%d_%H%M%S') }}"
+
+  tasks:
+    # --- TASK 1: TỰ ĐỘNG CẤU HÌNH BASIC ---
+    - name: Task 1 - Configure Secret, Password and Encryption
+      cisco.ios.ios_config:
+        lines:
+          - enable secret uit@123
+          - service password-encryption
+          - line console 0
+          - password uit@123
+          - login
+      register: config_result
+
+    - name: Print Task 1 status
+      debug:
+        msg: "✅ Đã cấu hình xong mật khẩu và mã hóa cho thiết bị!"
+      when: config_result.changed
+
+    # --- TASK 2: THU THẬP CẤU HÌNH ---
+    - name: Ensure backup directory exists
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+      delegate_to: localhost
+
+    - name: Task 2 - Collect running configuration
+      cisco.ios.ios_command:
+        commands: show running-config
+      register: show_run
+
+    - name: Save configuration to file
+      copy:
+        content: "{{ show_run.stdout[0] }}"
+        dest: "{{ backup_dir }}/running-config_{{ timestamp }}.txt"
+      delegate_to: localhost

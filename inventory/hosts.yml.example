@@ -5,9 +5,7 @@ all:
         R1:
           ansible_host: 172.17.0.11
         R2:
-          ansible_host: 10.0.0.2
-        R3:
-          ansible_host: 10.0.0.6
+          ansible_host: 172.17.0.12
       vars:
         ansible_user: admin
         ansible_password: YOUR_PASSWORD_HERE
