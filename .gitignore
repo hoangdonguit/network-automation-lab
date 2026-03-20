@@ -1,4 +1,4 @@
 Ansible-Backup-Lab/
 *.log
 __pycache__/
-.DS_Store
+.DS_Storeinventory/hosts.yml

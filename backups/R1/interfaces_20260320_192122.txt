@@ -1,0 +1,3 @@
+Interface              IP-Address      OK? Method Status                Protocol
+FastEthernet0/0        172.17.0.11     YES manual up                    up      
+FastEthernet1/0        10.0.0.1        YES manual up                    up
