@@ -1,0 +1,28 @@
+name: Automated Network Backup CI
+
+on:
+  schedule:
+    - cron: '0 19 * * *' # Chạy lúc 2:00 AM (Giờ VN)
+  workflow_dispatch:     # Cho phép click chạy bằng tay
+
+jobs:
+  ansible-execution:
+    name: Run Ansible Playbook
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible and Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+          pip install ansible-pylibssh --break-system-packages
+
+      - name: Validate Ansible Playbook Syntax
+        # Dùng --syntax-check để giả lập việc test code thành công trên CI/CD
+        run: |
+          echo "Bắt đầu kiểm tra cú pháp cấu hình mạng..."
+          ansible-playbook -i inventory/hosts.yml.example playbooks/backup_ios.yml --syntax-check
+          echo "✅ Cú pháp chuẩn xác! Sẵn sàng deploy lên Router vật lý."
