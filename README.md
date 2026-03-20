@@ -27,8 +27,8 @@
 |--------|----------------|--------------|-------------------|
 | R1     | Fa0/0 (Cloud)  | 172.17.0.11  | Gateway to host   |
 | R1     | Fa1/0          | 10.0.0.1     | Link to R2        |
-| R2     | Fa0/0          | 10.0.0.2     | Link to R1        |
-| R2     | Fa1/0          | 10.0.0.5     | Link to R3        |
+| R2     | Fa0/0          | 10.0.0.5     | Link to R3        |
+| R2     | Fa1/0          | 10.0.0.2     | Link to R1        |
 | R3     | Fa0/0          | 10.0.0.6     | Link to R2        |
 
 > Ansible only needs to reach **R1** (`172.17.0.11`) directly.  
