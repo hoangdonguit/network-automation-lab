@@ -37,3 +37,37 @@ Thay vì triển khai một máy ảo Ubuntu lồng bên trong GNS3 làm Ansible
    ```bash
    sudo apt update && sudo apt install ansible git -y
    pip3 install ansible-pylibssh --break-system-packages
+   ```
+
+---
+
+## 🚀 Hướng dẫn Triển khai (Deployment Guide)
+
+### Bước 1: Tải mã nguồn
+Mở Terminal trên Control Node và tiến hành clone mã nguồn từ nhánh `nt542-lab`:
+
+```bash
+git clone -b nt542-lab [https://github.com/hoangdonguit/network-automation-lab.git](https://github.com/hoangdonguit/network-automation-lab.git)
+cd network-automation-lab
+```
+
+### Bước 2: Mở sơ đồ giả lập (Topology)
+Khởi động GNS3 và mở file sơ đồ được cung cấp sẵn tại đường dẫn:
+`gns3_topology/Lab_NT542_Basic.gns3`
+
+*Lưu ý: Đảm bảo các Router đã được bật và Cloud node đã kết nối đúng với card mạng của máy Host.*
+
+### Bước 3: Cập nhật Danh bạ thiết bị (Inventory)
+Tạo file `inventory/hosts.yml` (dựa trên mẫu `hosts.yml.example`) và điều chỉnh lại thông số kết nối khớp với Lab thực tế:
+
+```bash
+cp inventory/hosts.yml.example inventory/hosts.yml
+nano inventory/hosts.yml
+```
+
+### Bước 4: Thực thi Playbook
+Sử dụng câu lệnh sau để Ansible tiến hành tự động hóa đồng thời cả 2 Task:
+
+```bash
+ansible-playbook playbooks/nt542_hw.yml
+```
