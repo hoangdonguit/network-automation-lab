@@ -173,7 +173,7 @@
         "nodes": [
             {
                 "compute_id": "local",
-                "console": 5000,
+                "console": 5001,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -242,7 +242,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5001,
+                "console": 5002,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -311,7 +311,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5002,
+                "console": 5003,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -402,6 +402,11 @@
                 "properties": {
                     "interfaces": [
                         {
+                            "name": "cni0",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
                             "name": "docker0",
                             "special": true,
                             "type": "ethernet"
@@ -412,13 +417,58 @@
                             "type": "ethernet"
                         },
                         {
+                            "name": "flannel.1",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "gns3tap0-4",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
                             "name": "lo",
                             "special": true,
                             "type": "ethernet"
                         },
                         {
-                            "name": "tun0",
+                            "name": "tailscale0",
                             "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth07cdab35",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth328884f1",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth4d42a1cb",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth4ff3bb2d",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth66e151cc",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "veth74cbc573",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "vethe439bab6",
+                            "special": true,
                             "type": "ethernet"
                         },
                         {
@@ -480,6 +530,6 @@
     },
     "type": "topology",
     "variables": null,
-    "version": "2.2.56.1",
+    "version": "2.2.57",
     "zoom": 100
 }

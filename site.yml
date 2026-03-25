@@ -1,0 +1,9 @@
+---
+- name: Enterprise Network Automation - Infrastructure as Code
+  hosts: cisco_routers
+  gather_facts: false
+
+  roles:
+    - base
+    - routing
+    - backup

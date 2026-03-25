@@ -1,0 +1,18 @@
+---
+# Tự động hóa việc thu thập và sao lưu cấu hình
+- name: BACKUP | Ensure backup directory exists
+  file:
+    path: "backups/{{ inventory_hostname }}"
+    state: directory
+  delegate_to: localhost
+
+- name: BACKUP | Collect running configuration
+  cisco.ios.ios_command:
+    commands: show running-config
+  register: show_run
+
+- name: BACKUP | Save configuration to file
+  copy:
+    content: "{{ show_run.stdout[0] }}"
+    dest: "backups/{{ inventory_hostname }}/running-config_{{ lookup('pipe', 'date +%Y%m%d_%H%M%S') }}.txt"
+  delegate_to: localhost
