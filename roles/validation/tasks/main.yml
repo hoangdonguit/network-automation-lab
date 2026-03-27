@@ -1,0 +1,33 @@
+---
+# Kiểm tra trạng thái hoạt động của mạng (Operational State Validation)
+- name: VALIDATION | R1 ping test to R2 (10.0.0.2)
+  cisco.ios.ios_command:
+    commands: ping 10.0.0.2
+  register: ping_r2
+  when: inventory_hostname == 'R1'
+
+- name: VALIDATION | Assert R2 connectivity
+  assert:
+    that:
+      - "'!' in ping_r2.stdout[0]"
+    fail_msg: "CẢNH BÁO ĐỎ: R1 không thể ping tới R2! Mạng đang đứt."
+    success_msg: "THÀNH CÔNG: Mạng từ R1 đến R2 thông suốt vạn dặm!"
+  when: inventory_hostname == 'R1'
+
+- name: VALIDATION | Wait for OSPF and ping test to R3 (10.0.0.6)
+  cisco.ios.ios_command:
+    commands: ping 10.0.0.6
+  register: ping_r3
+  # Cho phép Ansible thử ping tối đa 6 lần, mỗi lần cách nhau 5 giây để đợi OSPF
+  until: "'!' in ping_r3.stdout[0]"
+  retries: 6
+  delay: 5
+  when: inventory_hostname == 'R1'
+
+- name: VALIDATION | Assert R3 connectivity
+  assert:
+    that:
+      - "'!' in ping_r3.stdout[0]"
+    fail_msg: "CẢNH BÁO ĐỎ: R1 không thể ping tới R3! Mạng đang đứt."
+    success_msg: "THÀNH CÔNG: Mạng từ R1 đến R3 thông suốt vạn dặm!"
+  when: inventory_hostname == 'R1'

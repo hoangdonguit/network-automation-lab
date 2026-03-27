@@ -21,6 +21,7 @@ jobs:
 
       - name: Create dummy inventory for syntax check
         run: |
+          mkdir -p inventory
           cat > inventory/hosts.yml << 'EOF'
           all:
             children:
@@ -28,38 +29,31 @@ jobs:
                 hosts:
                   R1:
                     ansible_host: 172.17.0.11
-                    ansible_user: admin
-                    ansible_password: dummy
-                    ansible_connection: network_cli
-                    ansible_network_os: ios
-                    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
                   R2:
                     ansible_host: 10.0.0.2
-                    ansible_user: admin
-                    ansible_password: dummy
-                    ansible_connection: network_cli
-                    ansible_network_os: ios
-                    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
                   R3:
                     ansible_host: 10.0.0.6
-                    ansible_user: admin
-                    ansible_password: dummy
-                    ansible_connection: network_cli
-                    ansible_network_os: ios
-                    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+                vars:
+                  ansible_user: admin
+                  ansible_password: dummy_password
+                  ansible_connection: network_cli
+                  ansible_network_os: ios
+                  ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
           EOF
 
       - name: Syntax check playbook
+        # Đã cập nhật lại thành file site.yml
         run: |
-          ansible-playbook playbooks/backup_ios.yml \
-            -i inventory/hosts.yml \
-            --syntax-check
+          ansible-playbook -i inventory/hosts.yml site.yml --syntax-check
 
       - name: Verify repo structure
+        # Đã cập nhật để kiểm tra cấu trúc Roles mới
         run: |
-          echo "=== Checking required files ==="
+          echo "=== Checking required files & folders ==="
           test -f ansible.cfg              && echo "OK ansible.cfg"
-          test -f .gitignore               && echo "OK .gitignore"
-          test -f inventory/hosts.yml.example && echo "OK hosts.yml.example"
-          test -f playbooks/backup_ios.yml && echo "OK playbook"
+          test -f site.yml                 && echo "OK site.yml"
+          test -d roles/base               && echo "OK roles/base"
+          test -d roles/routing            && echo "OK roles/routing"
+          test -d roles/validation         && echo "OK roles/validation"
+          test -d roles/backup             && echo "OK roles/backup"
           echo "=== All checks passed ==="
